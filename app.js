@@ -11,7 +11,7 @@ app.get('/*', function (req, res, next) {
     res.sendFile(__dirname + "/client/" + file);
 });
 app.use('/client', express.static(__dirname + '/client'));
-server.listen(3000);
+server.listen(process.env.PORT || 3000);
 console.log('Server Started on localhost:3000');
 var io = require('socket.io')(server, {});
 var ALL_SOCKETS = {};
