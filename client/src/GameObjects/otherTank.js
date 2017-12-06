@@ -18,7 +18,6 @@ var otherTank = /** @class */ (function (_super) {
         _this.maxBullets = 10;
         _this.game = game;
         _this.id = id;
-        _this.FIREBASE = new util_Firebase();
         _this.layer = layer;
         _this.tank = tank;
         _this.sName = sName;
@@ -40,40 +39,40 @@ var otherTank = /** @class */ (function (_super) {
         _this.weapon.onFire.add(_this.bulletFire, _this);
         _this.weapon.onKill.add(_this.bulletDead, _this);
         _this.body.setCircle(33);
-        _this.body.immovable = true;
-        _this.FIREBASE.getDatabase().ref("Players/" + _this.id).on("value", function (snap) {
-            if (!snap.exists()) {
-                console.log("Player doesn't exist anymore.");
-                _this.destroy();
-                _this.displayName.destroy();
-                _this.weapon.bullets.destroy();
-                _this.healthBar.kill();
-            }
-            else {
-                _this.x = snap.val().x;
-                _this.y = snap.val().y;
-                _this.rotation = snap.val().r;
-                _this.sName = snap.val().name;
-                _this.health = snap.val().health;
-            }
-        });
-        _this.FIREBASE.getDatabase().ref("Players/" + _this.id + "/bullets").on("value", function (snap) {
-            if (snap.exists()) {
-                var bulletsInCloud = snap.val();
-                // console.log("Local: " + this.bulletInfo);
-                // console.log("Cloud: " + bulletsInCloud + "\n");
-                for (x = 0; x < _this.maxBullets; x++) {
-                    // if the bullet is dead here and in firebase, reset shotOnce
-                    _this.bulletInfo[x] = bulletsInCloud[x];
-                }
-                // console.log("Updated: " + this.bulletInfo);
-            }
-        });
+        // this.body.immovable = true;
+        // this.FIREBASE.getDatabase().ref("Players/" + this.id).on("value", snap => {
+        //     if (!snap.exists()) {
+        //         console.log("Player doesn't exist anymore.");
+        //         this.destroy();
+        //         this.displayName.destroy();
+        //         this.weapon.bullets.destroy();
+        //         this.healthBar.kill();
+        //     } else {
+        //         this.x = snap.val().x;
+        //         this.y = snap.val().y;
+        //         this.rotation = snap.val().r;
+        //         this.sName = snap.val().name;
+        //         this.health = snap.val().health;
+        //     }
+        // });
+        //
+        // this.FIREBASE.getDatabase().ref("Players/" + this.id + "/bullets").on("value", snap => {
+        //     if (snap.exists()) {
+        //         let bulletsInCloud = snap.val();
+        //         // console.log("Local: " + this.bulletInfo);
+        //         // console.log("Cloud: " + bulletsInCloud + "\n");
+        //         for (x = 0; x < this.maxBullets; x++) {
+        //             // if the bullet is dead here and in firebase, reset shotOnce
+        //             this.bulletInfo[x] = bulletsInCloud[x];
+        //         }
+        //         // console.log("Updated: " + this.bulletInfo);
+        //     }
+        // });
         var style = {
             font: "32px Arial",
             fill: "#0009ff"
         };
-        _this.displayName = _this.game.add.text(0, 0, _this.sName, style);
+        _this.displayName = _this.game.add.text(0, 0, sName, style);
         _this.displayName.anchor.set(0.5, 0.5);
         _this.healthBar = new HealthBar(_this.game, {
             width: 100,
@@ -123,6 +122,9 @@ var otherTank = /** @class */ (function (_super) {
     otherTank.prototype.bulletHit = function (tank, bullet) {
         bullet.kill();
     };
+    otherTank.prototype.updateInfo = function (x, y, r, health) {
+        this.game.add.tween(this).to({ x: x, y: y, rotation: r }, 1000 / 60, "Sine.easeInOut", true);
+        this.health = health;
+    };
     return otherTank;
 }(Phaser.Sprite));
-//# sourceMappingURL=otherTank.js.map

@@ -36,7 +36,7 @@ class WelcomeState extends Phaser.State {
     }
 
     create() {
-        // this.game.state.add("GameState", new GameState());
+        this.game.state.add("GameState", new GameState());
 
         this.InputPlugin = this.game.plugins.add(PhaserInput.Plugin);
         this.game.physics.startSystem(Phaser.Physics.ARCADE);

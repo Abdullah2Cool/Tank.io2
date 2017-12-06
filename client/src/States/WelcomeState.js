@@ -36,7 +36,7 @@ var WelcomeState = /** @class */ (function (_super) {
         this.game.load.image("play_Button", "Assets/Play Button.png");
     };
     WelcomeState.prototype.create = function () {
-        // this.game.state.add("GameState", new GameState());
+        this.game.state.add("GameState", new GameState());
         this.InputPlugin = this.game.plugins.add(PhaserInput.Plugin);
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         this.game.stage.backgroundColor = '#000000';
@@ -95,4 +95,3 @@ var WelcomeState = /** @class */ (function (_super) {
     };
     return WelcomeState;
 }(Phaser.State));
-//# sourceMappingURL=WelcomeState.js.map
