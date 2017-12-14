@@ -9,7 +9,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 var TilemapLayer = Phaser.TilemapLayer;
-var otherTank = (function (_super) {
+var otherTank = /** @class */ (function (_super) {
     __extends(otherTank, _super);
     function otherTank(game, x, y, id, layer, tank, sName) {
         var _this = _super.call(this, game, x, y, "otherTank") || this;

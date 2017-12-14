@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var TankTrouble = (function (_super) {
+var TankTrouble = /** @class */ (function (_super) {
     __extends(TankTrouble, _super);
     function TankTrouble(divID) {
         var _this = _super.call(this, "100%", "100%", Phaser.AUTO, divID, new WelcomeState()) || this;

@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var GameState = (function (_super) {
+var GameState = /** @class */ (function (_super) {
     __extends(GameState, _super);
     function GameState() {
         var _this = _super.call(this) || this;
