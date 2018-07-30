@@ -22,56 +22,62 @@ var ALL_SOCKETS = {};
 var ALL_PLAYERS = {};
 
 io.on('connect', function (socket) {
-    console.log("Socket connected:", socket.id);
-    ALL_SOCKETS[socket.id] = socket;
+    try {
+        console.log("Socket connected:", socket.id);
+        ALL_SOCKETS[socket.id] = socket;
 
-    var player;
+        var player;
 
-    socket.on("start", function (data) {
+        socket.on("start", function (data) {
 
-        player = new Player(socket.id, data.name)
+            player = new Player(socket.id, data.name)
 
-        console.log("Recieved Name:", data.name);
+            console.log("Recieved Name:", data.name);
 
-        // tell the client their own id and the rest of the player
-        socket.emit("serverState", {
-            id: socket.id,
-            otherPlayers: ALL_PLAYERS
+            // tell the client their own id and the rest of the player
+            socket.emit("serverState", {
+                id: socket.id,
+                otherPlayers: ALL_PLAYERS
+            });
+
+            ALL_PLAYERS[socket.id] = player;
+
+            // tell everyone else that their is a new player
+            socket.broadcast.emit("newPlayer", {
+                id: socket.id,
+                newPlayer: player,
+                name: data.name
+            });
         });
 
-        ALL_PLAYERS[socket.id] = player;
 
-        // tell everyone else that their is a new player
-        socket.broadcast.emit("newPlayer", {
-            id: socket.id,
-            newPlayer: player,
-            name: data.name
-        });
-    });
-
-
-    socket.on("position", function (data) {
-        ALL_PLAYERS[socket.id].x = data.x;
-        ALL_PLAYERS[socket.id].y = data.y;
-        ALL_PLAYERS[socket.id].r = data.r;
-        ALL_PLAYERS[socket.id].health = data.health;
-        // console.log("ID:", socket.id, "Received health:", data.health);
-    });
-
-    socket.on('shoot', function (data) {
-        socket.broadcast.emit('shoot', {id: socket.id});
-    });
-
-    socket.on("disconnect", function () {
-        delete ALL_SOCKETS[socket.id];
-        delete ALL_PLAYERS[socket.id];
-
-        socket.broadcast.emit("removed", {
-            id: socket.id
+        socket.on("position", function (data) {
+            if (ALL_PLAYERS[socket.id]) {
+                ALL_PLAYERS[socket.id].x = data.x;
+                ALL_PLAYERS[socket.id].y = data.y;
+                ALL_PLAYERS[socket.id].r = data.r;
+                ALL_PLAYERS[socket.id].health = data.health;
+            } 
+            // console.log("ID:", socket.id, "Received health:", data.health);
         });
 
-        console.log("Socket disconnected:", socket.id);
-    });
+        socket.on('shoot', function (data) {
+            socket.broadcast.emit('shoot', {id: socket.id});
+        });
+
+        socket.on("disconnect", function () {
+            delete ALL_SOCKETS[socket.id];
+            delete ALL_PLAYERS[socket.id];
+
+            socket.broadcast.emit("removed", {
+                id: socket.id
+            });
+
+            console.log("Socket disconnected:", socket.id);
+        });
+    } catch (e) {
+        console.log(e);
+    }
 });
 
 
