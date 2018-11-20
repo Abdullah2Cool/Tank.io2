@@ -17,10 +17,20 @@ console.log("Server started on localhost:3000");
 var io = require('socket.io')(server, {});
 var ALL_SOCKETS = {};
 var ALL_PLAYERS = {};
+var controller = null;
+var controller_assigned = false;
+var controller_player_id = null;
 io.on('connect', function (socket) {
     try {
         console.log("Socket connected:", socket.id);
         ALL_SOCKETS[socket.id] = socket;
+        socket.on("registerController", function (data) {
+            console.log(`Controller Found`);
+            controller = socket;
+            controller_assigned = false;
+            controller_player_id = null;
+            console.log(`${data['message']}`);
+        });
         var player;
         socket.on("start", function (data) {
             player = new Player_1.Player(socket.id, data.name);
@@ -50,12 +60,41 @@ io.on('connect', function (socket) {
         socket.on('shoot', function (data) {
             socket.broadcast.emit('shoot', { id: socket.id });
         });
+        socket.on("requestController", function (data) {
+            console.log(`${socket.id} requested controller.`);
+            if (controller != null && controller_assigned == false) {
+                socket.emit("assign_controller", { controller: true });
+                controller_assigned = true;
+                controller_player_id = socket.id;
+                console.log(`Controller Assigned.`);
+            }
+            else {
+                socket.emit("assign_controller", { controller: false });
+                console.log(`Controller Not Available`);
+            }
+        });
         socket.on("disconnect", function () {
-            delete ALL_SOCKETS[socket.id];
-            delete ALL_PLAYERS[socket.id];
-            socket.broadcast.emit("removed", {
-                id: socket.id
-            });
+            if (controller != null && socket.id == controller.id) {
+                // if the controller goes offline
+                console.log(`Lost Controller`);
+                ALL_SOCKETS[controller_player_id].emit("controllerOffline", {});
+                controller_player_id = null;
+                controller_assigned = false;
+                controller = null;
+            }
+            else {
+                delete ALL_SOCKETS[socket.id];
+                delete ALL_PLAYERS[socket.id];
+                // if the player goes offline
+                if (socket.id == controller_player_id) {
+                    console.log(`Player with controller left.`);
+                    controller_player_id = null;
+                    controller_assigned = false;
+                }
+                socket.broadcast.emit("removed", {
+                    id: socket.id
+                });
+            }
             console.log("Socket disconnected:", socket.id);
         });
     }

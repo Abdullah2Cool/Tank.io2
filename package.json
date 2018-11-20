@@ -18,5 +18,4 @@
     "@types/node": "^8.0.53",
     "@types/socket.io": "^1.4.31"
   }
-
 }

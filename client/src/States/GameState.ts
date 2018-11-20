@@ -38,7 +38,23 @@ class GameState extends Phaser.State {
         this.game.camera.follow(this.tank);
 
 
-        this.socket.emit("start", {name: this.name});
+        this.socket.emit("start", { name: this.name });
+
+        // request controller
+        this.socket.emit("requestController");
+
+        this.socket.on("assign_controller", function (data) {
+            console.log(data);
+            if (data['controller'] == true) {
+                console.log(`Connected to controller`);
+            } else {
+                console.log("Controller not available.");
+            }
+        });
+
+        this.socket.on("controllerOffline", function (data) {
+            console.log("Lost Controller.");
+        });
 
         this.socket.on("serverState", this.onServerState.bind(this));
         this.socket.on("newPlayer", this.onNewPlayer.bind(this));
