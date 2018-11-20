@@ -92,7 +92,9 @@ io.on('connect', function (socket) {
             if (controller != null && socket.id == controller.id) {
                 // if the controller goes offline
                 console.log(`Lost Controller`);
-                ALL_SOCKETS[controller_player_id].emit("controllerOffline", {});
+                if (controller_player_id! = null) {
+                    ALL_SOCKETS[controller_player_id].emit("controllerOffline", {});
+                }
                 controller_player_id = null;
                 controller_assigned = false;
                 controller = null;
