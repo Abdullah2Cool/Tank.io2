@@ -31,6 +31,31 @@ io.on('connect', function (socket) {
             controller_player_id = null;
             console.log(`${data['message']}`);
         });
+        socket.on("left", function (data) {
+            if (controller_assigned && socket.id == controller && ALL_SOCKETS[controller_player_id]) {
+                ALL_SOCKETS[controller_player_id].emit("left");
+            }
+        });
+        socket.on("right", function (data) {
+            if (controller_assigned && socket.id == controller && ALL_SOCKETS[controller_player_id]) {
+                ALL_SOCKETS[controller_player_id].emit("right");
+            }
+        });
+        socket.on("up", function (data) {
+            if (controller_assigned && socket.id == controller && ALL_SOCKETS[controller_player_id]) {
+                ALL_SOCKETS[controller_player_id].emit("up");
+            }
+        });
+        socket.on("down", function (data) {
+            if (controller_assigned && socket.id == controller && ALL_SOCKETS[controller_player_id]) {
+                ALL_SOCKETS[controller_player_id].emit("down");
+            }
+        });
+        socket.on("shoot", function (data) {
+            if (controller_assigned && socket.id == controller && ALL_SOCKETS[controller_player_id]) {
+                ALL_SOCKETS[controller_player_id].emit("shoot_now");
+            }
+        });
         var player;
         socket.on("start", function (data) {
             player = new Player_1.Player(socket.id, data.name);

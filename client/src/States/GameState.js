@@ -35,6 +35,7 @@ class GameState extends Phaser.State {
         this.socket.on("controllerOffline", function (data) {
             console.log("Lost Controller.");
         });
+        this.socket.on("shoot_now", this.onShoot_now.bind(this));
         this.socket.on("serverState", this.onServerState.bind(this));
         this.socket.on("newPlayer", this.onNewPlayer.bind(this));
         this.socket.on("removed", this.onRemoved.bind(this));
@@ -88,6 +89,10 @@ class GameState extends Phaser.State {
                 console.log("Other tank shot me.");
             });
         }, this);
+    }
+    onShoot_now(data) {
+        this.tank.weapon.fire();
+        console.log("SHOOT FROM SERVER");
     }
     onShoot(data) {
         this.otherPlayers[data.id].weapon.fire();
