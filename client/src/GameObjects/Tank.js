@@ -5,7 +5,7 @@ class Tank extends Phaser.Sprite {
         this.bulletInfo = {};
         this.game = game;
         this.name = sName;
-        this.velocity = 200;
+        this.velocity = 150;
         this.id = id;
         this.socket = socket;
         this.randomGenerator = new Phaser.RandomDataGenerator();
@@ -76,7 +76,7 @@ class Tank extends Phaser.Sprite {
         else if (this.rightKey.isDown) {
             this.body.angularVelocity = 100;
         }
-        if (this.upKey.isDown) {
+        else if (this.upKey.isDown) {
             this.game.physics.arcade.velocityFromAngle(this.angle, this.velocity, this.body.velocity);
         }
         else if (this.downKey.isDown) {

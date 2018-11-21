@@ -24,7 +24,7 @@ class Tank extends Phaser.Sprite {
         super(game, x, y, "tank");
         this.game = game;
         this.name = sName;
-        this.velocity = 200;
+        this.velocity = 150;
 
 
         this.id = id;
@@ -113,9 +113,7 @@ class Tank extends Phaser.Sprite {
             this.body.angularVelocity = -100;
         } else if (this.rightKey.isDown) {
             this.body.angularVelocity = 100;
-        }
-
-        if (this.upKey.isDown) {
+        } else if (this.upKey.isDown) {
             this.game.physics.arcade.velocityFromAngle(this.angle, this.velocity, this.body.velocity);
         } else if (this.downKey.isDown) {
             this.game.physics.arcade.velocityFromAngle(this.angle, -this.velocity, this.body.velocity);
