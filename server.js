@@ -32,28 +32,39 @@ io.on('connect', function (socket) {
             console.log(`${data['message']}`);
         });
         socket.on("left", function (data) {
-            if (controller_assigned && socket.id == controller && ALL_SOCKETS[controller_player_id]) {
+            console.log("Received Left");
+            // console.log({ controller_assigned, socket, controller_player_id });
+            if (controller_assigned && socket.id == controller.id && ALL_SOCKETS[controller_player_id]) {
                 ALL_SOCKETS[controller_player_id].emit("left");
+                console.log("Sent Left");
             }
         });
         socket.on("right", function (data) {
-            if (controller_assigned && socket.id == controller && ALL_SOCKETS[controller_player_id]) {
+            console.log("Received Right");
+            if (controller_assigned && socket.id === controller.id && ALL_SOCKETS[controller_player_id]) {
                 ALL_SOCKETS[controller_player_id].emit("right");
+                console.log("Sent Right");
             }
         });
         socket.on("up", function (data) {
-            if (controller_assigned && socket.id == controller && ALL_SOCKETS[controller_player_id]) {
+            console.log("Received Up");
+            if (controller_assigned && socket.id === controller.id && ALL_SOCKETS[controller_player_id]) {
                 ALL_SOCKETS[controller_player_id].emit("up");
+                console.log("Sent Up");
             }
         });
         socket.on("down", function (data) {
-            if (controller_assigned && socket.id == controller && ALL_SOCKETS[controller_player_id]) {
+            console.log("Received Down");
+            if (controller_assigned && socket.id === controller.id && ALL_SOCKETS[controller_player_id]) {
                 ALL_SOCKETS[controller_player_id].emit("down");
+                console.log("Sent Down");
             }
         });
-        socket.on("shoot", function (data) {
-            if (controller_assigned && socket.id == controller && ALL_SOCKETS[controller_player_id]) {
+        socket.on("shoot_now", function (data) {
+            console.log("Received Shoot");
+            if (controller_assigned && socket.id === controller.id && ALL_SOCKETS[controller_player_id]) {
                 ALL_SOCKETS[controller_player_id].emit("shoot_now");
+                console.log("Sent Shoot");
             }
         });
         var player;
@@ -102,7 +113,7 @@ io.on('connect', function (socket) {
             if (controller != null && socket.id == controller.id) {
                 // if the controller goes offline
                 console.log(`Lost Controller`);
-                if (controller_player_id = null) {
+                if (controller_player_id != null) {
                     ALL_SOCKETS[controller_player_id].emit("controllerOffline", {});
                 }
                 controller_player_id = null;

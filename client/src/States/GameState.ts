@@ -56,6 +56,27 @@ class GameState extends Phaser.State {
             console.log("Lost Controller.");
         });
 
+        this.socket.on("left", data => {
+            console.log("Turning Left");
+            if (this.tank.lefKey.isDown) this.tank.lefKey.isDown = false;
+            else this.tank.lefKey.isDown = true;
+        });
+        this.socket.on("right", data => {
+            console.log("Turning Right");
+            if (this.tank.rightKey.isDown) this.tank.rightKey.isDown = false;
+            else this.tank.rightKey.isDown = true;
+        });
+        this.socket.on("up", data => {
+            console.log("Moving UP");
+            if (this.tank.upKey.isDown) this.tank.upKey.isDown = false;
+            else this.tank.upKey.isDown = true;
+        });
+        this.socket.on("down", data => {
+            console.log("Moving down");
+            if (this.tank.downKey.isDown) this.tank.downKey.isDown = false;
+            else this.tank.downKey.isDown = true;
+        });
+
         this.socket.on("shoot_now", this.onShoot_now.bind(this));
 
         this.socket.on("serverState", this.onServerState.bind(this));
@@ -124,8 +145,12 @@ class GameState extends Phaser.State {
     }
 
     onShoot_now(data) {
-        this.tank.weapon.fire();
-        console.log("SHOOT FROM SERVER");
+        try {
+            this.tank.weapon.fire();
+            console.log("SHOOT FROM SERVER");
+        } catch (err) {
+            // console.log(err);
+        }
     }
 
     onShoot(data) {
