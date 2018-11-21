@@ -43,35 +43,35 @@ io.on('connect', function (socket) {
             console.log("Received Left");
             // console.log({ controller_assigned, socket, controller_player_id });
             if (controller_assigned && socket.id == controller.id && ALL_SOCKETS[controller_player_id]) {
-                ALL_SOCKETS[controller_player_id].emit("left");
+                ALL_SOCKETS[controller_player_id].emit("left", data);
                 console.log("Sent Left");
             }
         });
         socket.on("right", function (data) {
             console.log("Received Right");
             if (controller_assigned && socket.id === controller.id && ALL_SOCKETS[controller_player_id]) {
-                ALL_SOCKETS[controller_player_id].emit("right");
+                ALL_SOCKETS[controller_player_id].emit("right", data);
                 console.log("Sent Right");
             }
         });
         socket.on("up", function (data) {
             console.log("Received Up");
             if (controller_assigned && socket.id === controller.id && ALL_SOCKETS[controller_player_id]) {
-                ALL_SOCKETS[controller_player_id].emit("up");
+                ALL_SOCKETS[controller_player_id].emit("up", data);
                 console.log("Sent Up");
             }
         });
         socket.on("down", function (data) {
             console.log("Received Down");
             if (controller_assigned && socket.id === controller.id && ALL_SOCKETS[controller_player_id]) {
-                ALL_SOCKETS[controller_player_id].emit("down");
+                ALL_SOCKETS[controller_player_id].emit("down", data);
                 console.log("Sent Down");
             }
         });
         socket.on("shoot_now", function (data) {
             console.log("Received Shoot");
             if (controller_assigned && socket.id === controller.id && ALL_SOCKETS[controller_player_id]) {
-                ALL_SOCKETS[controller_player_id].emit("shoot_now");
+                ALL_SOCKETS[controller_player_id].emit("shoot_now", data);
                 console.log("Sent Shoot");
             }
         });

@@ -58,23 +58,19 @@ class GameState extends Phaser.State {
 
         this.socket.on("left", data => {
             console.log("Turning Left");
-            if (this.tank.lefKey.isDown) this.tank.lefKey.isDown = false;
-            else this.tank.lefKey.isDown = true;
+            this.tank.lefKey.isDown = !data['num'];
         });
         this.socket.on("right", data => {
             console.log("Turning Right");
-            if (this.tank.rightKey.isDown) this.tank.rightKey.isDown = false;
-            else this.tank.rightKey.isDown = true;
+            this.tank.rightKey.isDown = !data['num'];
         });
         this.socket.on("up", data => {
             console.log("Moving UP");
-            if (this.tank.upKey.isDown) this.tank.upKey.isDown = false;
-            else this.tank.upKey.isDown = true;
+            this.tank.upKey.isDown = !data['num'];
         });
         this.socket.on("down", data => {
             console.log("Moving down");
-            if (this.tank.downKey.isDown) this.tank.downKey.isDown = false;
-            else this.tank.downKey.isDown = true;
+            this.tank.downKey.isDown = !data['num'];
         });
 
         this.socket.on("shoot_now", this.onShoot_now.bind(this));
