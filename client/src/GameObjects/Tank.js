@@ -71,10 +71,10 @@ class Tank extends Phaser.Sprite {
         this.body.velocity.y = 0;
         this.body.angularVelocity = 0;
         if (this.lefKey.isDown) {
-            this.body.angularVelocity = -200;
+            this.body.angularVelocity = -100;
         }
         else if (this.rightKey.isDown) {
-            this.body.angularVelocity = 200;
+            this.body.angularVelocity = 100;
         }
         if (this.upKey.isDown) {
             this.game.physics.arcade.velocityFromAngle(this.angle, this.velocity, this.body.velocity);

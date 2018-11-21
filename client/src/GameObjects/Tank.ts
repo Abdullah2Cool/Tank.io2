@@ -87,19 +87,19 @@ class Tank extends Phaser.Sprite {
 
         // this.healthbar = this.game.add.graphics(0, 0);
         this.healthBar = new HealthBar(this.game, {
-                width: 100,
-                height: 10,
-                x: 0,
-                y: 0,
-                bg: {
-                    color: '#ff000a'
-                },
-                bar: {
-                    color: '#47ff00'
-                },
-                animationDuration: 10,
-                flipped: false
-            }
+            width: 100,
+            height: 10,
+            x: 0,
+            y: 0,
+            bg: {
+                color: '#ff000a'
+            },
+            bar: {
+                color: '#47ff00'
+            },
+            animationDuration: 10,
+            flipped: false
+        }
         );
 
     }
@@ -110,10 +110,9 @@ class Tank extends Phaser.Sprite {
         this.body.angularVelocity = 0;
 
         if (this.lefKey.isDown) {
-            this.body.angularVelocity = -200;
-        }
-        else if (this.rightKey.isDown) {
-            this.body.angularVelocity = 200;
+            this.body.angularVelocity = -100;
+        } else if (this.rightKey.isDown) {
+            this.body.angularVelocity = 100;
         }
 
         if (this.upKey.isDown) {
@@ -168,4 +167,3 @@ class Tank extends Phaser.Sprite {
         // console.table(this.weapon.bullets.children, ['visible', 'alive', 'fancy']);
     }
 }
-       
